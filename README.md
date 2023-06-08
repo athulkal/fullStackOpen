@@ -2,7 +2,7 @@
 
 full stack open projects submission repository
 
-##Part 0
+## Part 0
 
 0.4) Sequence diagram - new note diagram
 
@@ -10,10 +10,18 @@ full stack open projects submission repository
 
 0.6) Sequence diagram - new note on the single page app
 
-##Part 1
+## Part 1
 
 1 - 1.5) React and JS basics
 
 1.6 - 1.11) Unicafe
 
 1.12 - 1.14) Anecdotes
+
+## Part 2
+
+2.1-2.5) Course info
+
+2.6 - 2.17) Phonebook
+
+2.18-2.20) Countries
