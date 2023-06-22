@@ -49,6 +49,7 @@ const App = () => {
       const changeNumber = window.confirm(
         `${updatingPerson[0].name} is already added to the phonebook,replace the old number with a new one ?`
       );
+
       // updating person details
 
       const updatedPerson = { ...updatingPerson[0], number: newNumber };
