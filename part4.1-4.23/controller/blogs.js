@@ -46,6 +46,7 @@ blogsRouter.post('/', middlewares.userExtractor, async (req, res, next) => {
       data: blog,
     })
   } catch (err) {
+    console.log(err)
     next(err)
   }
 })
