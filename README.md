@@ -37,3 +37,11 @@ full stack open projects submission repository
 ## Part 5
 
 5.1-5.23) Bloglist frontent and testing react app
+
+## Part 6
+
+6.1-6.2 ) redux-unicafe
+
+6.3 - 6.19) redux-anecdote
+
+6.20 - 6.24) query-anecdotes
