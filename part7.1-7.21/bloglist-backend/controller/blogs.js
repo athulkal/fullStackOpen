@@ -10,7 +10,7 @@ blogsRouter.get('/', async (req, res, next) => {
       name: 1,
       id: 1,
     })
-    console.log('fetched blogs', blogs.length)
+    console.log('get all blogs: ==>', blogs.length)
     res.status(200).json({
       status: 'success',
       data: blogs,
@@ -29,7 +29,7 @@ blogsRouter.post('/', middlewares.userExtractor, async (req, res, next) => {
     }
     const user = req.user
 
-    const newBlog = {
+    const newBlogData = {
       title,
       url,
       author,
@@ -37,11 +37,15 @@ blogsRouter.post('/', middlewares.userExtractor, async (req, res, next) => {
       user: user.id,
     }
     console.log(user)
-    const blog = await Blog.create(newBlog)
+    let blog = await Blog.create(newBlogData)
+    blog = await blog.populate('user', {
+      username: 1,
+      name: 1,
+      id: 1,
+    })
     console.log(blog)
     user.blogs = user.blogs.concat(blog.id)
     await user.save()
-
     res.status(201).json({
       status: 'success',
       data: blog,
@@ -67,6 +71,16 @@ blogsRouter.get('/:id', async (req, res, next) => {
   }
 })
 
+blogsRouter.post('/:id/comments', async (request, response) => {
+  console.log('blogsRouter', request.body)
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    { $push: { comments: request.body.comment } },
+    { new: true }
+  )
+  response.json(updatedBlog).status(200).end()
+})
+
 blogsRouter.put('/:id', async (req, res, next) => {
   try {
     const blog = {
@@ -75,9 +89,14 @@ blogsRouter.put('/:id', async (req, res, next) => {
       url: req.body.url,
       likes: req.body.likes,
     }
-    const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
+    let updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
       new: true,
       runValidators: true,
+    })
+    await updatedBlog.populate('user', {
+      username: 1,
+      name: 1,
+      id: 1,
     })
     res.status(201).json(updatedBlog)
   } catch (err) {

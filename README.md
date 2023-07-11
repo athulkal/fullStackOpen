@@ -36,7 +36,7 @@ full stack open projects submission repository
 
 ## Part 5
 
-5.1-5.23) Bloglist frontent and testing react app
+5.1-5.23) Bloglist frontend and testing react app
 
 ## Part 6
 
@@ -45,3 +45,13 @@ full stack open projects submission repository
 6.3 - 6.19) redux-anecdote/redux-anecdote
 
 6.20 - 6.24) query-anecdote
+
+## Part 7
+
+7.1-7.6) routed-anecdotes
+
+7.7) country-hooks
+
+7.8) ultimate-hooks
+
+7.9 - 7.21) bloglist extended

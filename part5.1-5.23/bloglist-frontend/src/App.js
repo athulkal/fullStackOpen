@@ -19,7 +19,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [blogs])
+  }, [])
 
   useEffect(() => {
     const userLoggedJSON = window.localStorage.getItem('loggedInUser')
@@ -59,18 +59,20 @@ const App = () => {
   }
 
   const createBlogHandler = async (newBlog) => {
-    blogFormRef.current.toggleVisibility()
-    blogService.create(newBlog).then((res) => {
-      console.log(res.data.data)
-      setBlogs((prevState) => [...prevState, res.data.data])
-      console.log(blogs)
-    })
-    setNotification(`a new blog ${newBlog.title} by ${newBlog.author}`)
-    setColor('green')
-    setTimeout(() => {
-      setNotification(null)
-      setColor('')
-    }, 3000)
+    try {
+      blogFormRef.current.toggleVisibility()
+      await blogService.create(newBlog)
+      const newBlogs = await blogService.getAll()
+      setBlogs(newBlogs)
+      setNotification(`a new blog ${newBlog.title} by ${newBlog.author}`)
+      setColor('green')
+      setTimeout(() => {
+        setNotification(null)
+        setColor('')
+      }, 3000)
+    } catch (err) {
+      console.log(err)
+    }
   }
   const handlePasswordChange = (e) => {
     setPassword(e.target.value)
@@ -100,17 +102,19 @@ const App = () => {
     })
   }
 
-  const removeBlogHandler = (id) => {
-    blogService.remove(id).catch((err) => {
-      if (err) {
-        setNotification(err.response.data.error)
-        setColor('red')
-        setTimeout(() => {
-          setNotification(null)
-          setColor('')
-        }, 3000)
-      }
-    })
+  const removeBlogHandler = async (id) => {
+    try {
+      await blogService.remove(id)
+      const newBlogs = await blogService.getAll()
+      setBlogs(newBlogs)
+    } catch (err) {
+      setNotification(err.response.data.error)
+      setColor('red')
+      setTimeout(() => {
+        setNotification(null)
+        setColor('')
+      }, 3000)
+    }
   }
 
   const sortedBlogs = blogs.sort((a, b) =>
